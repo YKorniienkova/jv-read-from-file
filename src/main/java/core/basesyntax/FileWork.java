@@ -1,9 +1,11 @@
 package core.basesyntax;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileReader;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class FileWork {
     public String[] readFromFile(String fileName) {
@@ -11,7 +13,7 @@ public class FileWork {
         List<String> list = new ArrayList<>();
         File file = new File(fileName);
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))){
+        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
             String value;
             while ((value = reader.readLine()) != null) {
                 String[] words = value.split("[\\s\\p{Punct}]+");
