@@ -2,9 +2,11 @@ package core.basesyntax;
 
 import java.io.File;
 import java.io.FileReader;
-import java.io.BufferedReader;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 public class FileWork {
@@ -12,20 +14,20 @@ public class FileWork {
         //write your code here
         List<String> list = new ArrayList<>();
         File file = new File(fileName);
-
-        try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-            String value;
-            while ((value = reader.readLine()) != null) {
-                String[] words = value.split("[\\s\\p{Punct}]+");
-                for (String i : words) {
-                    if (!value.isEmpty() && Character.toLowerCase(value.charAt(0)) == 'w') {
-                        list.add(value.toLowerCase());
+        try {
+            List<String> lines = Files.readAllLines(file.toPath());
+            for (String i : lines) {
+                String[] words = i.split("[\\s\\p{Punct}]+");
+                for (String word: words) {
+                    if (!word.isEmpty() && Character.toLowerCase(word.charAt(0)) == 'w') {
+                        list.add(word.toLowerCase());
                     }
                 }
             }
         } catch (IOException e) {
             throw new RuntimeException("Can't read file", e);
         }
-        return null;
+        Collections.sort(list);
+        return list.toArray(new String[0]);
     }
 }
